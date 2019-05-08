@@ -30,7 +30,7 @@
         <bool>true</bool>
        </property>
        <property name="currentIndex">
-        <number>6</number>
+        <number>5</number>
        </property>
        <widget class="QWidget" name="tab_filters">
         <attribute name="title">
@@ -1204,7 +1204,7 @@
           <rect>
            <x>170</x>
            <y>10</y>
-           <width>641</width>
+           <width>461</width>
            <height>231</height>
           </rect>
          </property>
@@ -1299,16 +1299,16 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="layoutWidget">
+        <widget class="QWidget" name="">
          <property name="geometry">
           <rect>
-           <x>520</x>
-           <y>280</y>
-           <width>361</width>
-           <height>139</height>
+           <x>698</x>
+           <y>132</y>
+           <width>184</width>
+           <height>281</height>
           </rect>
          </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_15">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>

@@ -496,7 +496,7 @@ def active_contour(image, snake, alpha=0.01, beta=0.1,
 
     # Interpolate for smoothness:
     # Can be used for both smoothing and interpolating data
-
+    # It takes the scattered points to produce a smoother set of points by interpolation
     intp = RectBivariateSpline(np.arange(img.shape[1]),
                                np.arange(img.shape[0]),
                                img.T, kx=2, ky=2, s=0)
@@ -517,7 +517,7 @@ def active_contour(image, snake, alpha=0.01, beta=0.1,
         4 * np.roll(np.eye(n), -1, axis=0) - \
         4 * np.roll(np.eye(n), -1, axis=1) + \
         6 * np.eye(n)  # fourth order derivative, central difference
-    A = -alpha * a + beta * b  # Internal energy
+    A = -alpha * a + beta * b  # Internal energy for continuity and smoothness
 
     # Impose boundary conditions different from periodic:
     sfixed = False
@@ -759,6 +759,7 @@ class CV(QMainWindow):
             self.graphicsView_2.setImage(imageGRAY.T)
             self.graphicsView_4.setImage(imageGRAY.T)
             self.comboBox.setCurrentIndex(0)
+            self.graphicsView_3.clear()
             Clicked = 1
 
     def filter_selection(self):
@@ -774,7 +775,7 @@ class CV(QMainWindow):
             X_Prewitt_Image = signal.convolve2d(imageGRAY, X_Prewitt_Kernel, boundary='symm', mode='same')
             Y_Prewitt_Image = signal.convolve2d(imageGRAY, Y_Prewitt_Kernel, boundary='symm', mode='same')
             Prewitt_Magnitude = np.sqrt(np.square(X_Prewitt_Image) + np.square(Y_Prewitt_Image))
-            Prewitt_Direction = np.arctan(np.divide(Y_Prewitt_Image, X_Prewitt_Image))
+            #Prewitt_Direction = np.arctan(np.divide(Y_Prewitt_Image, X_Prewitt_Image))
             self.graphicsView_3.clear()
             self.graphicsView_3.setImage(Prewitt_Magnitude.T)
 
@@ -784,7 +785,7 @@ class CV(QMainWindow):
             X_Sobel_Image = signal.convolve2d(imageGRAY, X_Sobel_Kernel, boundary='symm', mode='same')
             Y_Sobel_Image = signal.convolve2d(imageGRAY, Y_Sobel_Kernel, boundary='symm', mode='same')
             Sobel_Magnitude = np.sqrt(np.square(X_Sobel_Image) + np.square(Y_Sobel_Image))
-            Sobel_Direction = np.arctan(np.divide(Y_Sobel_Image, X_Sobel_Image))
+            #Sobel_Direction = np.arctan(np.divide(Y_Sobel_Image, X_Sobel_Image))
             self.graphicsView_3.clear()
             self.graphicsView_3.setImage(Sobel_Magnitude.T)
 
@@ -875,7 +876,7 @@ class CV(QMainWindow):
             F2_High = F2.copy()
             # select all but the first 50x50 (low) frequencies
             F2_High[half_h - n:half_h + n + 1, half_w - n:half_w + n + 1] = 0
-            HighPass_Image_Frequency = 20*np.log10(F2_High).astype(int)
+            HighPass_Image_Frequency = 20*np.log10(F2_High+1).astype(int)
             HighPass_Image = fp.ifft2(fp.ifftshift(F2_High)).real
             self.graphicsView_3.clear()
             self.graphicsView_3.setImage(HighPass_Image.T)
@@ -897,7 +898,7 @@ class CV(QMainWindow):
             F2_Low[h - n:h, 0:w] = 0
             F2_Low[0:h, 0:n] = 0
             F2_Low[0:h, w - n:w] = 0
-            LowPass_Image_Frequency = 20 * np.log10(F2_Low).astype(int)
+            LowPass_Image_Frequency = 20 * np.log10(F2_Low+1).astype(int)
             LowPass_Image = fp.ifft2(fp.ifftshift(F2_Low)).real
             self.graphicsView_3.clear()
             self.graphicsView_3.setImage(LowPass_Image.T)
@@ -921,7 +922,7 @@ class CV(QMainWindow):
             F2_Band[h - n:h, 0:w] = 0
             F2_Band[0:h, 0:n] = 0
             F2_Band[0:h, w - n:w] = 0
-            BandPass_Image_Frequency = 20*np.log10(F2_Band).astype(int)
+            BandPass_Image_Frequency = 20*np.log10(F2_Band+1).astype(int)
             BandPass_Image = fp.ifft2(fp.ifftshift(F2_Band)).real
             self.graphicsView_3.clear()
             self.graphicsView_3.setImage(BandPass_Image.T)
@@ -951,6 +952,8 @@ class CV(QMainWindow):
             self.graphicsView_4.setImage(imageGRAYH.T)
             self.graphicsView_6.clear()
             self.graphicsView_6.plot(histogram[0, :], histogram[1, :])
+            self.graphicsView_7.clear()
+            self.graphicsView_5.clear()
             self.radioButton.setChecked(False)
             self.radioButton_2.setChecked(False)
             ClickedH = 1
@@ -1578,5 +1581,3 @@ if __name__ == "__main__":
     widget = CV()
     widget.show()
     sys.exit(app.exec_())
-    
-
