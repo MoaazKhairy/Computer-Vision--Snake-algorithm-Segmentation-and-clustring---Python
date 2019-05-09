@@ -30,7 +30,7 @@
         <bool>true</bool>
        </property>
        <property name="currentIndex">
-        <number>5</number>
+        <number>6</number>
        </property>
        <widget class="QWidget" name="tab_filters">
         <attribute name="title">
@@ -1299,7 +1299,7 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>698</x>
@@ -1485,7 +1485,7 @@
          <property name="geometry">
           <rect>
            <x>510</x>
-           <y>20</y>
+           <y>0</y>
            <width>351</width>
            <height>221</height>
           </rect>
@@ -1533,7 +1533,7 @@
          <property name="geometry">
           <rect>
            <x>140</x>
-           <y>20</y>
+           <y>0</y>
            <width>361</width>
            <height>221</height>
           </rect>
@@ -1760,9 +1760,9 @@
          <property name="geometry">
           <rect>
            <x>480</x>
-           <y>280</y>
-           <width>401</width>
-           <height>135</height>
+           <y>304</y>
+           <width>381</width>
+           <height>111</height>
           </rect>
          </property>
          <property name="title">
@@ -1921,6 +1921,74 @@
           </item>
          </layout>
         </widget>
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="geometry">
+          <rect>
+           <x>480</x>
+           <y>220</y>
+           <width>391</width>
+           <height>81</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string>Region Growing settings</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="1">
+           <layout class="QVBoxLayout" name="verticalLayout_19">
+            <item>
+             <widget class="QPushButton" name="setRGButton">
+              <property name="text">
+               <string>set</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="resetRGButton">
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="0" column="0">
+           <layout class="QVBoxLayout" name="verticalLayout_18">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_22">
+              <item>
+               <widget class="QLabel" name="label_70">
+                <property name="text">
+                 <string>point = </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_pt_RG">
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <zorder>image_segmentaion_op</zorder>
+        <zorder>label_138</zorder>
+        <zorder>label_Seg_name</zorder>
+        <zorder>image_segmentaion_ip</zorder>
+        <zorder>pushButton_segmentation_load</zorder>
+        <zorder>label_Seg_size</zorder>
+        <zorder>label_141</zorder>
+        <zorder>groupBox_5</zorder>
+        <zorder>horizontalLayoutWidget_9</zorder>
+        <zorder>groupBox_6</zorder>
+        <zorder>groupBox_7</zorder>
+        <zorder>groupBox_7</zorder>
+        <zorder>layoutWidget_2</zorder>
        </widget>
        <widget class="QWidget" name="tab_SIFT">
         <attribute name="title">

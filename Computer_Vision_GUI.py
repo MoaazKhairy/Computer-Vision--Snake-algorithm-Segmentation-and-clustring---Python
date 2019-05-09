@@ -600,7 +600,7 @@ def box_filter(w):
     return np.ones((w, w)) / (w*w)
 
 
-def apply_region_growing(img):
+def apply_region_growing(img , pointX , pointY):
     rows,columns = np.shape(img)
     #Linear Scaling
     new_Gray_image = np.array(img.copy(),dtype = int)
@@ -616,8 +616,8 @@ def apply_region_growing(img):
 
     #User selects the intial seed point
     
-    X_point = int(179)
-    Y_point = int(86)
+    X_point = pointX #int(179)
+    Y_point = pointY #int(86)
     
     seed_pixel = []
     seed_pixel.append(X_point)
@@ -680,7 +680,7 @@ global imageGRAYHM, imageRGBHM, MaxHM, MinHM, imageSizeHM, ClickedHM
 
 global Initial_Positions, Adjust_Snake, Center_Snake, Radius_Snake, x1, y1, ClickedS 
 
-global ClickedSG, Adjust_K_Mean, selectionSG, x1SG, y1SG, x2SG, y2SG, firstPoint, secondPoint
+global ClickedSG, Adjust_K_Mean, selectionSG, x1SG, y1SG, x2SG, y2SG, firstPoint, secondPoint, Adjust_Region_Growing, RGPoint
 global point1_blue, point1_green, point1_red, point1_colors, point2_blue, point2_green, point2_red, point2_colors
 
 # Clicked is used to make sure that an image is loaded before choosing a filter
@@ -712,6 +712,8 @@ point1_red = 0
 point2_blue = 0
 point2_green = 0
 point2_red = 0
+Adjust_Region_Growing = 0
+RGPoint = []
 
 class CV(QMainWindow):
     def __init__(self):
@@ -737,6 +739,9 @@ class CV(QMainWindow):
         self.comboBox_Segmentation.activated.connect(self.seg_selection)
         self.radioButton.clicked.connect(self.histogram_equalization)
         self.radioButton_2.clicked.connect(self.histogram_matching)
+        self.resetRGButton.clicked.connect(self.resetRG)
+        self.setRGButton.clicked.connect(self.set_Region_Growing)
+        
 
     def browser(self):
         options = QFileDialog.Options()
@@ -1133,7 +1138,7 @@ class CV(QMainWindow):
         global Image, Initial_Positions, Adjust_Snake, Center_Snake, Radius_Snake, x1, y1, Adjust_K_Mean, \
             ClickedSG, selectionSG, imageSource, imageSRGB, Adjust_K_Mean, firstPoint, secondPoint, point1_blue, \
             point1_green, point1_red, point1_colors, point2_blue, point2_green, point2_red, point2_colors, \
-            x1SG, y1SG, x2SG, y2SG
+            x1SG, y1SG, x2SG, y2SG, Adjust_Region_Growing, RGPoint
         if self.tabWidget.currentIndex() == 5:
             if ClickedS == 0:
                 QMessageBox.about(self, "Error!", "Please choose an image")
@@ -1207,6 +1212,29 @@ class CV(QMainWindow):
                     else:
                         QMessageBox.about(self, "Mistake!", "To Adjust Press Reset")
                         return
+
+        if self.tabWidget.currentIndex() == 6 and selectionSG == "Region-Growing":
+            if ClickedSG == 0:
+                QMessageBox.about(self, "Error!", "Please choose an image")
+                return
+            if event.button() == Qt.LeftButton:
+                point = self.image_segmentaion_ip.mapFrom(self.centralwidget, event.pos())
+                x = point.x()
+                y = point.y()
+                print("x = " + str(x))
+                print("y = " + str(y))
+                if x in range(imageSRGB.shape[0]) and y in range(imageSRGB.shape[1]):
+                    if Adjust_Region_Growing == 0:
+                        RGPoint.append((x, y))
+                        x1SG = x
+                        y1SG = y
+                        Adjust_Region_Growing += 1
+                        RGPoint = "(" + str(x) + "," + str(y) + ")"
+                        self.label_pt_RG.setText(RGPoint)
+                    else:
+                        QMessageBox.about(self, "Mistake!", "To Adjust Press Reset")
+                        return
+
                       
     def reset(self):
         global Initial_Positions, Adjust_Snake, Center_Snake, Radius_Snake, x1, y1, Image, imageSource
@@ -1330,14 +1358,7 @@ class CV(QMainWindow):
             return
         selectionSG = self.comboBox_Segmentation.currentText()
         if selectionSG == "Region-Growing":
-            new_Segmented_image = apply_region_growing(imageSGRAY)
-            fig = plt.figure()
-            plt.imshow(new_Segmented_image)
-            plt.axis("off")
-            plt.savefig("RG.png")
-            img = "RG.png"
-            self.image_segmentaion_op.setPixmap(QPixmap(img).scaled(self.image_segmentaion_op.width(),
-                                                                    self.image_segmentaion_op.height()))
+            return
         elif selectionSG == "Mean-Shift":
             Mode = int(self.lineEdit_6.text())
             new_Segmented_image = np.zeros(np.shape(imageSRGB), np.uint8)
@@ -1473,6 +1494,22 @@ class CV(QMainWindow):
         self.label_G_pt2.clear()
         self.label_B_pt2.clear()
 
+
+    def resetRG(self):
+        global Adjust_Region_Growing, RGPoint, firstPoint, secondPoint, Original_Segmented_Image, imageSRGB,  x1SG, y1SG, x2SG, y2SG, ClickedSG, \
+            point1_blue, point1_green, point1_red, point1_colors, point2_blue, point2_green, point2_red, point2_colors,selectionSG
+           
+        if ClickedSG == 0:
+            QMessageBox.about(self, "Error!", "Please choose an image")
+            return
+        RGPoint = []
+        x1SG = 0
+        y1SG = 0
+        Adjust_Region_Growing = 0
+        self.label_pt_RG.clear()
+        self.image_segmentaion_op.clear()
+        
+
     def mean_shift(self):
         if ClickedSG == 0:
             QMessageBox.about(self, "Error!", "Please choose an image")
@@ -1570,10 +1607,25 @@ class CV(QMainWindow):
             plt.axis("off")
             plt.savefig("KMean.png")
             img = "KMean.png"
-            #plt.show()
             self.image_segmentaion_op.setPixmap(QPixmap(img).scaled(self.image_segmentaion_op.width(),
                                                                     self.image_segmentaion_op.height()))
+            
+    def set_Region_Growing(self):
+        
+        global imageSGRAY, x1SG, y1SG
+        if ClickedSG == 0:
+            QMessageBox.about(self, "Error!", "Please choose an image")
+            return
+        new_Segmented_image = apply_region_growing(imageSGRAY, x1SG, y1SG)
+        fig = plt.figure()
+        plt.imshow(new_Segmented_image)
+        plt.axis("off")
+        plt.savefig("RG.png")
+        img = "RG.png"
+        self.image_segmentaion_op.setPixmap(QPixmap(img).scaled(self.image_segmentaion_op.width(),
+                                                                self.image_segmentaion_op.height()))
 
+        return
 
 if __name__ == "__main__":
     app = 0  # This is the solution As the Kernel died every time I restarted the consol
