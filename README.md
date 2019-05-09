@@ -1,8 +1,5 @@
 # **Snake Active Contour**
-## References
-[1] https://github.com/scikit-image/scikit-image/blob/master/skimage/segmentation/active_contour_model.py#L7
-[2] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
-[3] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
+
 ## Working principle
 The code itself in the GUI, takes from the user multiple parameters:
 * Alpha
@@ -91,3 +88,10 @@ The images below are the original image, followed by its mean shift.
 
 ## Results:
 ![](Harris_Corners.PNG)
+
+
+## References
+[1] https://github.com/scikit-image/scikit-image/blob/master/skimage/segmentation/active_contour_model.py#L7
+[2] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
+[3] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
+[4] https://sbme-tutorials.github.io/2019/cv/presentations/5_week5/#1
