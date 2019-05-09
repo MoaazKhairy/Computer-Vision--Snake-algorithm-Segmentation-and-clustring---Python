@@ -29,11 +29,6 @@ After all the parameters are set, the snake is calculated.
 ![](snake2.png)
 
 # **Segmentation**
-## References
-[1] https://github.com/parag-datar/mean-shift-clustering
-[2] https://www.imageeprocessing.com/2017/12/k-means-clustering-on-rgb-image.html
-[3]
-[4] https://spin.atomicobject.com/2015/05/26/mean-shift-clustering/
 ### Definition
 ###### Clustering can be defined as the grouping of data points based on some commonality or similarity between the points.
 
@@ -91,7 +86,10 @@ The images below are the original image, followed by its mean shift.
 
 
 ## References
-[1] https://github.com/scikit-image/scikit-image/blob/master/skimage/segmentation/active_contour_model.py#L7
-[2] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
-[3] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf
-[4] https://sbme-tutorials.github.io/2019/cv/presentations/5_week5/#1
+[1] https://github.com/scikit-image/scikit-image/blob/master/skimage/segmentation/active_contour_model.py#L7 </br>
+[2] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf </br>
+[3] https://www.cs.cmu.edu/~galeotti/methods_course/Segmentation2-Snakes.pdf </br>
+[4] https://sbme-tutorials.github.io/2019/cv/presentations/5_week5/#1 </br>
+[5] https://github.com/parag-datar/mean-shift-clustering </br>
+[6] https://www.imageeprocessing.com/2017/12/k-means-clustering-on-rgb-image.html </br>
+[7] https://spin.atomicobject.com/2015/05/26/mean-shift-clustering/ </br>
